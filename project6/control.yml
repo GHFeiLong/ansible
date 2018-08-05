@@ -1,0 +1,20 @@
+---
+- name: start
+  hosts: servers
+  become: true
+  
+  tasks:
+  - name: open the port for the web server
+    firewalld:
+      service: http
+      state: enabled
+      immediate: true
+      permanent: true
+
+  - name: restart the web server
+    service: 
+      name: httpd
+      enabled: yes
+      state: restarted
+      
+    

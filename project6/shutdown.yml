@@ -1,0 +1,13 @@
+---
+- name: shutdown
+  hosts: servers
+  become: true
+
+  tasks:
+  - name: shutdown the web service
+    service: 
+      name: httpd
+      enabled: no
+      state: stopped
+
+

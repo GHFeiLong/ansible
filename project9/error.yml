@@ -1,0 +1,35 @@
+---
+- name: debug
+  hosts: servers
+
+  tasks:
+  - name: install XXXX
+    yum: 
+      name: httpd
+      state: latest
+    register: install_result
+    ignore_errors: yes
+
+  - name: debugs the install result
+    debug: 
+      msg: "install failed"
+    when: install_result is failed
+
+  - name: start service
+    service:
+      name: httpd
+      enabled: true
+      state: started
+    register: start_result
+    ignore_errors: yes
+
+  - name: debugs the service result
+    debug:
+      msg: "start failed"
+    when: start_result is failed
+
+  - name: all success
+    debug: 
+      msg: "everything is ok"
+    when: start_result and install_result is not failed
+

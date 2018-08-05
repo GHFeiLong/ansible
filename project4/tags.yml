@@ -1,0 +1,32 @@
+---
+- name: tag1
+  hosts: group1
+  tasks:
+  - name: group1 tag
+    copy:
+      src: /etc/redhat-release
+      dest: /var/www/html/group1.html
+  tags:
+  - group1
+
+- name: tag2
+  hosts: group2
+  tasks:
+  - name: group2 tag
+    copy:
+      src: /etc/redhat-release
+      dest: /var/www/html/group2.html
+  tags:
+  - group2
+
+- name: file authority management
+  hosts: all 
+  tasks: 
+  - name: file 
+    file:
+      path: /var/www/html/
+      group: student
+      owner: student
+      mode: 0755
+    tags:
+    - always

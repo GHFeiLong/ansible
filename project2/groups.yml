@@ -1,0 +1,10 @@
+---
+- name: tar 
+  hosts: web
+  tasks:
+
+  - name: web tar 
+    shell: tar czfv /var/tmp/httpd.tar.gz /var/www/html
+
+  - name: db tar
+    shell: tar czfv /var/log/db.tar.gz /usr/local

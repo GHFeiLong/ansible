@@ -1,0 +1,13 @@
+---
+- name: information
+  hosts: servers
+  become: true
+  tasks:
+  - name: server information
+    template:
+      src: template.j2
+      dest: /var/www/html/information.html
+      mode: 0644
+      group: student
+      owner: student
+

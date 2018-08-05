@@ -1,0 +1,12 @@
+---
+- name: create user
+  hosts: localhost
+  vars_files:
+    - ./password.yml
+
+  tasks:
+  - name: creating user from password.yml
+    user:
+      name: wfl
+      password: "{{ password }}"
+

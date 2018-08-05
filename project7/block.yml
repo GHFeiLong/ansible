@@ -1,0 +1,23 @@
+---
+- name: block example
+  hosts: servers
+  become: true
+
+  tasks:
+  - block:
+    - name: copy file
+      copy:
+        src: /var/log/messages
+        dest: /opt/
+        mode: 0644
+        group: student
+        owner: student
+    rescue:
+    - name: create file
+      lineinfile:
+        path: /opt/faild.txt
+        mode: 0777
+        create: yes
+        line: 'faild'
+        group: student
+        owner: student

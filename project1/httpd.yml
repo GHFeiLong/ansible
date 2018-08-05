@@ -1,0 +1,42 @@
+---
+- name: Installing httpd server
+  hosts: webservers
+  become: yes
+
+  tasks:
+  - name: Install httpd package
+    yum: 
+      name: httpd
+      state: latest
+
+  - name: Start the firewall
+    service:
+      name: firewalld
+      state: started
+      enabled: yes
+
+  - name: Open the port for the web server
+    firewalld: 
+      service: http
+      state: enabled
+      immediate: true
+      permanent: true
+
+  - name: upgrade the page
+    template:
+      src: "templates/vhost.j2"
+      dest: "/etc/httpd/conf.d/vhost.conf"
+    register: pageupgrade
+
+  - name: restart httpd server
+    service:
+      name: httpd
+      state: restarted
+      enabled: yes
+
+  - name: write index
+    lineinfile:
+      create: yes
+      dest: /var/www/first/index.html
+      line: "{{ ansible_fqdn }}"
+      state: present
